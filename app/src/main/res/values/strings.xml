@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Prime finder</string>
+    <string name="latest_prime">The Latest found prime:</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
