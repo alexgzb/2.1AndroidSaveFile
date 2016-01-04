@@ -47,12 +47,12 @@ public class MainActivity extends ActionBarActivity {
 		sb = getPreferences(MODE_PRIVATE);
 		spedit = sb.edit();
 
-		// Initialise the handler and override the handleMEssage method
+		// Initialise the handler and override the handleMessage method
 		handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
 
-				// If the bunde received does not contain a String with the key
+				// If the bundle received does not contain a String with the key
 				// max
 				if (msg.getData().get("max") == null) {
 
@@ -65,11 +65,9 @@ public class MainActivity extends ActionBarActivity {
 					tv.setText(current + " is the latest prime found");
 					Log.d(TAG, "Storing " + current + " as the last prime");
 
-					// If the the bundle does contain a String with the key
-					// "max"
+					// If the the bundle does contain a String with the key "max"
 					// Clear the sp with the key "lastPrime", and inform the
-					// user by
-					// Writing to the logcat file and the textview.
+					// user by Writing to the logcat file and the textview.
 				} else {
 					Log.d(TAG, "Max reached, clearing shared prefs");
 					String message = msg.getData().getString("max");
@@ -145,7 +143,7 @@ public class MainActivity extends ActionBarActivity {
 		 * the MAX value in a while loop, if the number is a prime. If it is a
 		 * prime it sends the number back to the handler in a message object
 		 * (bundle) and sleeps for a short while. If it is not a prime the
-		 * method increments the current number by 2 and loops. When MAX has
+		 * method increments the current number by 2 (Since even numbers except 2 cant be prime) and loops. When MAX has
 		 * been reached. The method sends back a string with key "max" to the
 		 * handler
 		 */
@@ -153,9 +151,11 @@ public class MainActivity extends ActionBarActivity {
 			try {
 				while (num < MAX) {
 					Message msg = Message.obtain();
-					if (isPrime(num)) {
-
-						msg.obj = num;
+					long workingNum = num;
+					if (isPrime(workingNum)) {
+						if (workingNum == 1)
+							workingNum = 2;
+						msg.obj = workingNum;
 						handler.sendMessage(msg);
 
 						Thread.sleep(500);
@@ -180,7 +180,7 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 		/**
-		 * Method that checks a candidate value wheter it is a prime or not
+		 * Method that checks a candidate value whether it is a prime or not
 		 * 
 		 * @param candidate
 		 *            the value to check
